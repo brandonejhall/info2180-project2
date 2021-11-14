@@ -1,0 +1,13 @@
+header{
+    background-color: black;
+    color: white;
+    padding: 0.5em;
+}
+.page{
+    display: grid;
+    grid-template-columns: 15% 85%;
+}
+.sidebar{
+    background-color: lightgray;
+    padding: 0.3em;
+}
