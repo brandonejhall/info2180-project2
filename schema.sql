@@ -18,7 +18,7 @@ CREATE TABLE `users`(
 
 
 
-/* Creating the isssues table*/
+/* Creating the issues table*/
 CREATE TABLE `issues`(
     `id` int(5) NOT NULL auto_increment,
     `title` varchar(50) NOT NULL default '',
