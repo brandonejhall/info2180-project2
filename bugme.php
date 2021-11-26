@@ -45,13 +45,33 @@ if ($admin_exists < 1){
            $new_u = ['firstname' => $firstname,'lastname' => $lastname,'password' => password_hash($password),'email' => $email];
 
            $new_admin = "INSERT INTO users (firstname, lastname, password,email) VALUES (:firstname ,:lastname,:password,:email)";
-           $new_admin = "INSERT INTO users (firstname, lastname, password,email) VALUES (:firstname ,:lastname,:password,:email)";
            $conn->prepare($new_admin)->execute($new_u);
        };
    };
  
 ?>
+<?php endif ?>
+
+<?php if ($_SERVER['REQUEST_METHOD']=== 'POST'):
+    if (isset($_POST)){
+        if (isset($_POST['login'])){
+            $login_user_data = array_map('strip_tags',$_POST['login']);
+            $email = $login_user_data[0];
+            $password = $login_user_data[1];
+
+            $email_check = $conn->query("SELECT email from users WHERE email = $email");
+
+            $password_hash = $conn->query("SELECT password from users WHERE email = $email");
+
+            if ($email_check == $email && password_verify($password,$password_hash)){
+                $user = $conn->query("SELECT email from users WHERE email = $email");
+                session.start();
+                $_SESSION["email"] = $email;
+            };
 
 
-
+        };
+        
+    };
+?>
 <?php endif ?>
