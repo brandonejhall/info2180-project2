@@ -6,9 +6,9 @@
 
     // connection made to database
 
-    if ($_SERVER['REQUEST_METHOD']=== 'POST'){
+    if ($_SERVER['REQUEST_METHOD']=== 'POST'):
 
-        if (isset($_POST)){
+        if (isset($_POST['add_user'])){
             
             $new_user=filter_var($_POST['add_user'],FILTER_SANITIZE_STRING);
             $new_user =explode(",",$new_user);
@@ -27,7 +27,9 @@
         };
 
 
-    };
+    endif;
+
+    
 
 
     
