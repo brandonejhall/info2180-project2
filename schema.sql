@@ -6,7 +6,7 @@ CREATE TABLE `users`(
     `id` int(5) NOT NULL auto_increment,
     `firstname` varchar(20) NOT NULL default '',
     `lastname` varchar(20) NOT NULL default '',
-    `password` varchar(80) NOT NULL default '',
+    `pass` varchar(1000) NOT NULL default '',
     `email` varchar(20) NOT NULL default '',
     `date_joined` DATETIME NOT NULL default current_timestamp,
     PRIMARY KEY (`id`)
@@ -15,8 +15,7 @@ CREATE TABLE `users`(
 /* Insert admin user and hash password*/
 
 /*INSERT INTO `users` (firstname,lastname,password,email)VALUES ('admin','admin','','admin@project2.com');*/
-
-
+/*INSERT INTO `users` VALUES (1, "admin","admin","password123","admin@project2.com",current_timestamp);*/
 
 /* Creating the issues table*/
 CREATE TABLE `issues`(

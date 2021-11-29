@@ -36,7 +36,7 @@ function add()
                 {
                     element.preventDefault();
 
-                    httpRequest = new XMLHttpRequest();
+                    let httpRequest = new XMLHttpRequest();
 
                     var fname = document.getElementsByTagName("input")[0].value;
                     var lname = document.getElementsByTagName("input")[1].value;
@@ -47,7 +47,7 @@ function add()
                     var url = "bugme.php";
 
                     httpRequest.onreadystatechange = processName;
-                    httpRequest.open('POST', url);
+                    httpRequest.open('POST', url,true);
                     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     httpRequest.send('add_user=' + encodeURIComponent(add_user));
 
@@ -57,7 +57,8 @@ function add()
                         {
                             if (httpRequest.status === 200) 
                             {
-                              console.log("Success");
+                                let response = httpRequest.responseText;
+                                console.log(response);
                             } 
                             else 
                             {
