@@ -161,7 +161,7 @@ function login()
                 httpRequest.onreadystatechange = processName;
                         httpRequest.open('POST', url,true);
                         httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        httpRequest.send('add_user=' + encodeURIComponent(log_user));
+                        httpRequest.send('log_user=' + encodeURIComponent(log_user));
 
                         function processName()
                         {

@@ -32,11 +32,12 @@
 
 
         if(isset($_POST['log_user'])):
-            $ret_user = filter_var($_POST['log_user'],FILTER_SANITIZE_STRING);
-            $ret_user = explode(",",$new_user);
 
-            echo($email = $ret_user[0]);
+            $ret_user = filter_var($_POST['log_user'],FILTER_SANITIZE_STRING);
+            $ret_user = explode(",",$ret_user);
+            $email = ret_user[0];    
             $password = password_hash($ret_user[1]);
+            
 
             $statement = $conn->query("SELECT FIRST FROM users WHERE users.email == $email");
             
@@ -48,8 +49,11 @@
                 $_SESSION['email'] = $statement['email'];
                 echo "Session Started";
             endif;
+            
 
-
+        endif;
+        if(!(isset($_POST['log_user']))):
+            echo "Not working";
         endif;
 
 
