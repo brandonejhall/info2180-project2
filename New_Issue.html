@@ -5,33 +5,34 @@
 <p>Description</p>
 <input type="text" name="description" id="description"/><br><br>
 <p>Assigned To</p>
-<form action="/action_page.php">
-    <input list="browsers" name="browser" placeholder="hello">
-    <datalist id="browsers">
-      <option value="Internet Explorer">
-      <option value="Firefox">
-      <option value="Chrome">
-      <option value="Opera">
-      <option value="Safari">
+<form>
+    <input list="users" name="users">
+    <datalist id="users">
+      <option value="Tom Riddle">
+      <option value="Jamie Fox">
+      <option value="Joshua James">
+      <option value="Michael Manley">
+      <option value="Danny Devito">
     </datalist>
-  </form><br>
+</form><br>
 <p>Type</p>
-<form action="/action_page.php">
-<input list="browsers" name="browser" placeholder="hello">
-<datalist id="browsers">
-    <option value="Bug">
-    <option value="Proposal">
-    <option value="Task">
-</datalist>
+<form>
+    <input list="type" name="type">
+    <datalist id="type">
+        <option value="Bug">
+        <option value="Proposal">
+        <option value="Task">
+    </datalist>
 </form><br>
 <p>Prioritory</p>
-<form action="/action_page.php">
-    <input list="browsers" name="browser" placeholder="hello">
-    <datalist id="browsers">
+<form>
+    <input list="level" name="level">
+    <datalist id="level">
         <option value="Critical">
         <option value="Major">
         <option value="Minor">
     </datalist>
-    </form><br>
-    <button>Submit</button>
+</form><br>
+
+    <button class="newIssue">Submit</button>
 
