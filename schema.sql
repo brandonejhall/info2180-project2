@@ -6,7 +6,7 @@ CREATE TABLE `users`(
     `id` int(5) NOT NULL auto_increment,
     `firstname` varchar(20) NOT NULL default '',
     `lastname` varchar(20) NOT NULL default '',
-    `pass` varchar(1000) NOT NULL default '',
+    `pass` varchar(255) NOT NULL default '',
     `email` varchar(100) NOT NULL default '',
     `date_joined` DATETIME NOT NULL default current_timestamp,
     PRIMARY KEY (`id`)

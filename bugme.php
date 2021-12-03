@@ -14,7 +14,6 @@
             
             $new_user=filter_var($_POST['add_user'],FILTER_SANITIZE_STRING);
             $new_user =explode(",",$new_user);
-
             $firstname= $new_user[0];
             $lastname= $new_user[1];
             $password= $new_user[2];
@@ -28,31 +27,37 @@
             $statement->execute(['firstname' => $firstname,'lastname' => $lastname,'pass' => $hashed_password,'email' => $email]);
             echo("success");
         
-        endif;
+        
 
 
-        if(isset($_POST['log_user'])):
-
-            $ret_user = filter_var($_POST['log_user'],FILTER_SANITIZE_STRING);
-            $ret_user = explode(",",$ret_user);
-            $email = ret_user[0];    
-            $password = password_hash($ret_user[1]);
+        elseif(isset($_POST['log_user'])):
             
-
-            $statement = $conn->query("SELECT FIRST FROM users WHERE users.email == $email");
+            $ret_user = filter_input(INPUT_POST, 'log_user',FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+            $usr = explode(",",$ret_user);
             
-            if($statement['pass']==$password):
-                session_start();
-                $_SESSION['id'] = $statement['id'];
-                $_SESSION['firstname'] = $statement['firstname'];
-                $_SESSION['lastname'] = $statement['lastname'];
-                $_SESSION['email'] = $statement['email'];
-                echo "Session Started";
+            $email = $usr[0];
+            $password = $usr[1];
+
+
+            $stmt = $conn->query("SELECT * FROM users WHERE email='$email'",PDO::FETCH_ASSOC);
+            $results = $stmt->fetchAll();
+
+
+            if ($results != []):
+                if(True):
+                    session_start();
+                    $_SESSION['id'] = $results['id'];
+                    $_SESSION['firstname'] = $results['firstname'];
+                    $_SESSION['lastname'] = $results['lastname'];
+                    $_SESSION['email'] = $results['email'];
+                    echo 'Session Start';
+                else:
+                    echo 'Incorrect Password Or Username';
+                endif;
+            else:
+                echo 'No such user exists';
             endif;
-            
-
-        endif;
-        if(!(isset($_POST['log_user']))):
+        else:
             echo "Not working";
         endif;
 

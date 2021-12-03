@@ -151,11 +151,11 @@ function login()
             document.getElementsByClassName("content")[0].innerHTML = data;
             document.getElementById('loginBtn').addEventListener("click", function(e){
                 e.preventDefault();
-                let log_pw= document.querySelector('#password');
-                let log_email= document.querySelector('#email');
+                let log_pw= document.querySelector('#password').value;
+                let log_email= document.querySelector('#email').value;
                 let log_user= [log_email,log_pw];
                 var url = "bugme.php";
-                console.log("yo");
+                console.log(log_user);
                 let httpRequest = new XMLHttpRequest();
 
                 httpRequest.onreadystatechange = processName;
