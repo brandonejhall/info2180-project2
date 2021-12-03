@@ -36,20 +36,19 @@
             $usr = explode(",",$ret_user);
             
             $email = $usr[0];
-            $password = $usr[1];
+            $pass_word = $usr[1];
 
-
-            $stmt = $conn->query("SELECT * FROM users WHERE email='$email'",PDO::FETCH_ASSOC);
-            $results = $stmt->fetchAll();
+            $stmt = $conn->query("SELECT * FROM users WHERE email='$email'");
+            $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 
             if ($results != []):
-                if(True):
+                if(password_verify($pass_word,$results[0]['pass'])):
                     session_start();
-                    $_SESSION['id'] = $results['id'];
-                    $_SESSION['firstname'] = $results['firstname'];
-                    $_SESSION['lastname'] = $results['lastname'];
-                    $_SESSION['email'] = $results['email'];
+                    $_SESSION['id'] = $results[0]['id'];
+                    $_SESSION['firstname'] = $results[0]['firstname'];
+                    $_SESSION['lastname'] = $results[0]['lastname'];
+                    $_SESSION['email'] = $results[0]['email'];
                     echo 'Session Start';
                 else:
                     echo 'Incorrect Password Or Username';

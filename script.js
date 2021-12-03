@@ -155,7 +155,7 @@ function login()
                 let log_email= document.querySelector('#email').value;
                 let log_user= [log_email,log_pw];
                 var url = "bugme.php";
-                console.log(log_user);
+                
                 let httpRequest = new XMLHttpRequest();
 
                 httpRequest.onreadystatechange = processName;
