@@ -1,12 +1,6 @@
 window.onload = function()
 {
-    fetch("./Login.html")
-        .then(response => {
-            return response.text()
-        })
-        .then(data => {
-            document.getElementsByClassName("content")[0].innerHTML = data;
-        });
+    login()
     document.getElementsByClassName("Home")[0].addEventListener("click",home);
     document.getElementsByClassName("Add")[0].addEventListener("click",add);
     document.getElementsByClassName("New")[0].addEventListener("click",New);
@@ -184,11 +178,14 @@ function login()
         })
         .then(data => {
             document.getElementsByClassName("content")[0].innerHTML = data;
-            document.getElementById('loginBtn').addEventListener("click", function(e){
+            document.getElementById('LoginBtn').addEventListener("click", function(e)
+            {
                 e.preventDefault();
-                let log_pw= document.querySelector('#password');
-                let log_email= document.querySelector('#email');
-                let log_user= [log_email,log_pw];
+
+                var log_email = document.getElementsByTagName("input")[0].value;
+                var log_pw = document.getElementsByTagName("input")[1].value;
+                const log_user = [log_email,log_pw];
+                
                 var url = "bugme.php";
                 console.log("yo");
                 let httpRequest = new XMLHttpRequest();
@@ -196,7 +193,7 @@ function login()
                 httpRequest.onreadystatechange = processName;
                         httpRequest.open('POST', url,true);
                         httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        httpRequest.send('add_user=' + encodeURIComponent(log_user));
+                        httpRequest.send('log_user=' + encodeURIComponent(log_user));
 
                         function processName()
                         {
@@ -214,7 +211,7 @@ function login()
                             }
                         }
                 
-            })
+            });
         });
 }
 

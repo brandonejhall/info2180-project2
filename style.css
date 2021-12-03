@@ -99,5 +99,6 @@ p{
 }
 
 #description{
-    height: 100px;
+    border-radius: 5px;
+    border-color: black;
 }
