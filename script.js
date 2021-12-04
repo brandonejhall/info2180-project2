@@ -14,15 +14,41 @@ window.onload = function()
 };
 
 function home()
-{
+{     
+   
     fetch("./home.html")
         .then(response => {
             return response.text()
         })
         .then(data => {
-            document.getElementsByClassName("content")[0].innerHTML = data;
+        document.getElementsByClassName("content")[0].innerHTML = data;
+             
+        let httpRequest = new XMLHttpRequest();
+        var url = "bugme.php";
+            
+        let load_home = true;
+
+        httpRequest.onreadystatechange = processName;
+        httpRequest.open('POST', url,true);
+        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        httpRequest.send('home=' + encodeURIComponent(load_home));
+
+        function processName(){       
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    let response = httpRequest.responseText;
+                    console.log(response);
+                } 
+                else {
+                    alert('There was a problem with the request.');
+                }
+            }
+        }
+
+            
         });
-}
+   
+};
 
 function add()
 {

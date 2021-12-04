@@ -93,11 +93,13 @@
                 ]);
 
                 echo 'new issue created';
-            elseif(isset($POST[''])):
-            
-            
-            endif;
+            elseif(isset($_POST['home'])):
+                session_start();
+                $stmt = $conn->query("SELECT * FROM issues");
+                $table_results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
+
+            endif;
 
 
     endif;
@@ -105,10 +107,34 @@
     
 
 
-    
-
-
 ?>
+
+
+<?php if ($table_results!=[]): ?>
+    <table>
+    <tr>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Assigned To</th>
+        <th>Created By</th>
+    </tr>
+
+    <?php foreach ($table_results as $row): ?>
+    <tr>
+        <td><p><?= $row['id'] ?><p><a href=""><?= $row['title'] ?><a></td>
+        <td><?= $row['type'] ?></td>
+        <td><?= $row['status'] ?></td>
+        <td><?= $row['assigned_to'] ?></td>
+        <td><?= $row['created_by'] ?></td>
+    </tr>
+    <?php endforeach; ?>
+
+    </table>
+<?php endif; ?>
+
+
+
 
 
 
