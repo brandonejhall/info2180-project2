@@ -131,14 +131,49 @@ function add()
 
 function New()
 {
-    fetch("./New_Issue.html")
-        .then(response => {
-            return response.text()
-        })
-        .then(data => {
-            document.getElementsByClassName("content")[0].innerHTML = data;
-    
-        });
+    fetch("./New_Issue.php")
+    .then(response => {
+        return response.text()
+    })
+    .then(data => {
+        document.getElementsByClassName("content")[0].innerHTML = data;
+        document.getElementsByClassName("newIssue")[0].addEventListener("click", function(element)
+        {
+            element.preventDefault();
+
+            var title = document.getElementsByTagName("input")[0].value;
+            var description = document.getElementsByTagName("input")[1].value;
+            var user = document.getElementsByTagName("input")[2].value;
+            var type = document.getElementsByTagName("input")[3].value;
+            var level = document.getElementsByTagName("input")[4].value;
+            const new_issue = [title,description,user,type,level];
+            // console.log(title,description,user,type,level);
+
+            let httpRequest = new XMLHttpRequest();
+
+            httpRequest.onreadystatechange = processName;
+            httpRequest.open('POST', url,true);
+            httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            httpRequest.send('new_issue=' + encodeURIComponent(new_issue));
+
+            function processName()
+            {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) 
+                {
+                    if (httpRequest.status === 200) 
+                    {
+                        let response = httpRequest.responseText;
+                        console.log(response);
+                    } 
+                    else 
+                    {
+                    alert('There was a problem with the request.');
+                    }
+                }
+            }
+        }
+        );
+    });
 }
 
 function login()

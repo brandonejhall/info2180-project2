@@ -7,7 +7,8 @@
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
 
     // connection made to database
-
+    $_SESSION['loggedin'] = False;
+    
     if($_SERVER['REQUEST_METHOD']=== 'POST'):
 
         if(isset($_POST['add_user'])):
@@ -49,6 +50,7 @@
                     $_SESSION['firstname'] = $results[0]['firstname'];
                     $_SESSION['lastname'] = $results[0]['lastname'];
                     $_SESSION['email'] = $results[0]['email'];
+                    $_SESSION['loggedin'] = True;
                     echo 'Session Start';
                 else:
                     echo 'Incorrect Password Or Username';
@@ -56,10 +58,19 @@
             else:
                 echo 'No such user exists';
             endif;
-        else:
-            echo "Not working";
-        endif;
+        
 
+
+        elseif(isset($_POST['new_issue'])):
+                $new_issue = filter_input(INPUT_POST, 'new_issue',FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+                $new_issue = explode(",",$new_issue);
+                $title = $new_issue[0];
+                $desc = $new_issue[1];
+                $user = $new_issue[2];
+                $type = $new_issue[3];
+                $level = $new_issue[4];
+                $status = 'Open';      
+        endif;
 
 
 
