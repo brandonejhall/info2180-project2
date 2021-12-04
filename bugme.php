@@ -121,12 +121,27 @@
     </tr>
 
     <?php foreach ($table_results as $row): ?>
+        <?php
+            $count =0;
+            $assigned_id = intval($table_results[0]['assigned_to']);
+            $created_id = intval($table_results[0]['created_by']);
+        
+            $u_stmt = $conn->query("SELECT * FROM users WHERE id = '$assigned_id'");
+            $assigned_results = $u_stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $assigned = $assigned_results[$count]['firstname'].' '.$assigned_results[$count]['lastname'];
+                
+            $c_stmt = $conn->query("SELECT * FROM users WHERE id = $created_id");
+            $created_results = $c_stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $created = $created_results[$count]['firstname'].' '.$created_results[$count]['lastname'];
+            $count ++;
+
+        ?>
     <tr>
         <td><p><?= $row['id'] ?><p><a href=""><?= $row['title'] ?><a></td>
         <td><?= $row['type'] ?></td>
         <td><?= $row['status'] ?></td>
-        <td><?= $row['assigned_to'] ?></td>
-        <td><?= $row['created_by'] ?></td>
+        <td><?= $assigned ?></td>
+        <td><?= $created ?></td>
     </tr>
     <?php endforeach; ?>
 
