@@ -75,13 +75,13 @@
                 $status = 'Open';
                 $createdBy =intval("{$_SESSION['id']}");
 
-                print_r($new_issue);
+                
                 
                 $statement = $conn->prepare('INSERT INTO issues (title, description, type, priority, status, assigned_to, created_by) 
                 VALUES (:title, :description, :type, :priority, :status, :assigned_to, :created_by)');
 
                 
-                echo $assignedTo;
+                
                 $statement->execute([
                     'title' => $title,
                     'description' => $desc,
@@ -93,8 +93,10 @@
                 ]);
 
                 echo 'new issue created';
-
-        endif;
+            elseif(isset($POST[''])):
+            
+            
+            endif;
 
 
 

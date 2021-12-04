@@ -15,7 +15,7 @@ CREATE TABLE `users`(
 /* Insert admin user and hash password*/
 
 /*INSERT INTO `users` (firstname,lastname,password,email)VALUES ('admin','admin','','admin@project2.com');*/
-/*INSERT INTO `users` VALUES (1, "admin","admin","password123","admin@project2.com",current_timestamp);*/
+INSERT INTO `users` VALUES (1, "admin","admin","$2y$10$StDdnrk9VnKYVXk8/08uwuHeDdM8CRK8LLkANZ9U0Kz/r7FB4iUa2","admin@project2.com",current_timestamp);
 
 /* Creating the issues table*/
 CREATE TABLE `issues`(
