@@ -23,9 +23,11 @@
         
             
         
-            $statement = $conn->prepare('INSERT INTO users (firstname, lastname, pass, email) VALUES (:firstname, :lastname, :pass, :email)');
+            $statement = $conn->prepare('INSERT INTO users (firstname, lastname, password, email) 
+            VALUES (:firstname, :lastname, :password, :email)');
 
-            $statement->execute(['firstname' => $firstname,'lastname' => $lastname,'pass' => $hashed_password,'email' => $email]);
+            $statement->execute(['firstname' => $firstname,'lastname' => $lastname,'password' => $hashed_password,
+            'email' => $email]);
             echo("success");
         
         
@@ -44,7 +46,7 @@
 
 
             if ($results != []):
-                if(password_verify($pass_word,$results[0]['pass'])):
+                if(password_verify($pass_word,$results[0]['password'])):
                     session_start();
                     $_SESSION['id'] = $results[0]['id'];
                     $_SESSION['firstname'] = $results[0]['firstname'];
@@ -62,14 +64,36 @@
 
 
         elseif(isset($_POST['new_issue'])):
+                session_start();
                 $new_issue = filter_input(INPUT_POST, 'new_issue',FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
                 $new_issue = explode(",",$new_issue);
                 $title = $new_issue[0];
                 $desc = $new_issue[1];
-                $user = $new_issue[2];
+                $assignedTo = $new_issue[2];
                 $type = $new_issue[3];
-                $level = $new_issue[4];
-                $status = 'Open';      
+                $prio = $new_issue[4];
+                $status = 'Open';
+                $createdBy =intval("{$_SESSION['id']}");
+
+                print_r($new_issue);
+                
+                $statement = $conn->prepare('INSERT INTO issues (title, description, type, priority, status, assigned_to, created_by) 
+                VALUES (:title, :description, :type, :priority, :status, :assigned_to, :created_by)');
+
+                
+                echo $assignedTo;
+                $statement->execute([
+                    'title' => $title,
+                    'description' => $desc,
+                    'type' => $type, 
+                    'priority' => $prio, 
+                    'status' => $status,
+                    'assigned_to' => intval($assignedTo), 
+                    'created_by' => $createdBy
+                ]);
+
+                echo 'new issue created';
+
         endif;
 
 

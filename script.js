@@ -143,13 +143,15 @@ function New()
 
             var title = document.getElementsByTagName("input")[0].value;
             var description = document.getElementsByTagName("input")[1].value;
-            var user = document.getElementsByTagName("input")[2].value;
-            var type = document.getElementsByTagName("input")[3].value;
-            var level = document.getElementsByTagName("input")[4].value;
+            var user = document.getElementsByTagName("select")[0].value;
+            var type = document.getElementsByTagName("input")[2].value;
+            var level = document.getElementsByTagName("input")[3].value;
             const new_issue = [title,description,user,type,level];
             // console.log(title,description,user,type,level);
 
             let httpRequest = new XMLHttpRequest();
+
+            var url = "bugme.php";
 
             httpRequest.onreadystatechange = processName;
             httpRequest.open('POST', url,true);
