@@ -123,11 +123,11 @@
 <?php if ($table_results!=[]): ?>
     <table>
     <tr>
-        <th>Title</th>
-        <th>Type</th>
-        <th>Status</th>
+        <th style = "text-align: left; padding: 0.5em;">Title</th>
+        <th style = "text-align: center;">Type</th>
+        <th style = "padding: 0.5em;">Status</th>
         <th>Assigned To</th>
-        <th>Created</th>
+        <th>Created By</th>
     </tr>
     
     <?php foreach ($table_results as $count=>$row): ?>
@@ -145,11 +145,15 @@
             
         ?>
     <tr>
-        <td><?= $row['id'] ?> <a class="Title" value=<?=$row['id']?> href="#"><?= $row['title'] ?><a></td>
-        <td><?= $row['type'] ?></td>
-        <td><?= $row['status'] ?></td>
-        <td><?= $assigned ?></td>
-        <td><?= $date[0] ?></td>
+        <td style = "padding: 0.5em;"><?= $row['id'] . "&nbsp" ?><a href="" style = "text-decoration:none"><?= $row['title'] ?><a></td>
+        <td style = "text-align: center;"><?= $row['type'] ?></td>
+        <td style = "text-align: center; background-color: rgb(68, 184, 68); border-radius: 5px;"><?= $row['status'] ?></td>
+        <td style = "text-align: center;"><?= $assigned ?></td>
+        <td style = "text-align: center;"><?= $date[0] ?></td>
+    </tr>
+
+    <tr>
+        <td colspan="5" class="divider"><hr /></td>
     </tr>
     <?php endforeach; ?>
 
