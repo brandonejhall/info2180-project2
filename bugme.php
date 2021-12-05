@@ -117,7 +117,7 @@
         <th>Type</th>
         <th>Status</th>
         <th>Assigned To</th>
-        <th>Created By</th>
+        <th>Created</th>
     </tr>
 
     <?php foreach ($table_results as $row): ?>
@@ -137,11 +137,11 @@
 
         ?>
     <tr>
-        <td><p><?= $row['id'] ?><p><a href=""><?= $row['title'] ?><a></td>
+        <td><?= $row['id'] ?> <a href=""><?= $row['title'] ?><a></td>
         <td><?= $row['type'] ?></td>
         <td><?= $row['status'] ?></td>
         <td><?= $assigned ?></td>
-        <td><?= $created ?></td>
+        <td><?= $row['created'] ?></td>
     </tr>
     <?php endforeach; ?>
 
