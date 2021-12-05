@@ -145,7 +145,7 @@
             
         ?>
     <tr>
-        <td style = "padding: 0.5em;"><?= $row['id'] . "&nbsp" ?><a href="" style = "text-decoration:none"><?= $row['title'] ?><a></td>
+        <td style = "padding: 0.5em;"><?= $row['id'] . "&nbsp" ?><a class="Title" value=<?=$row['id']?>href="" style = "text-decoration:none"><?= $row['title'] ?><a></td>
         <td style = "text-align: center;"><?= $row['type'] ?></td>
         <td style = "text-align: center; background-color: rgb(68, 184, 68); border-radius: 5px;"><?= $row['status'] ?></td>
         <td style = "text-align: center;"><?= $assigned ?></td>
@@ -162,17 +162,30 @@
 
 
 <?php if ($title_results!=[]): ?>
+    <?php 
+        
+        $id = intval($title_results[0]['assigned_to']);
+        $title_stmt = $conn->query("SELECT * FROM users WHERE id = '$id'");
+        $assignedTo_results = $title_stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $assigned = $assignedTo_results[0]['firstname'].' '.$assignedTo_results[0]['lastname'];
+    ?>
+    
+    
+    
+    
+    
     <html>
         <div class = 'title_head'> 
             <h1><?=$title_results[0]['title'];?><h1>
             <h5>Issue <?= $title_results[0]['id'] ?> </h5>
         </div>
         
+        
         <div class ='title_content'>
             <p> <?= $title_results[0]['description']; ?> </p>
             <div class = 'right_bar'>
                 <div class = 'desc'>
-                    <p><?= $title_results[0]['assigned_to']?></p>
+                    <p><?= $assigned?></p>
                     <p><?= $title_results[0]['type']?></p>
                     <p><?= $title_results[0]['priority']?></p>
                     <p><?= $title_results[0]['status']?></p>
