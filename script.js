@@ -1,6 +1,12 @@
 window.onload = function()
 {
-    login()
+    fetch("./Login.html")
+        .then(response => {
+            return response.text()
+        })
+        .then(data => {
+            document.getElementsByClassName("content")[0].innerHTML = data;
+        });
     document.getElementsByClassName("Home")[0].addEventListener("click",home);
     document.getElementsByClassName("Add")[0].addEventListener("click",add);
     document.getElementsByClassName("New")[0].addEventListener("click",New);
@@ -8,15 +14,41 @@ window.onload = function()
 };
 
 function home()
-{
+{     
+   
     fetch("./home.html")
         .then(response => {
             return response.text()
         })
         .then(data => {
-            document.getElementsByClassName("content")[0].innerHTML = data;
+        document.getElementsByClassName("content")[0].innerHTML = data;
+             
+        let httpRequest = new XMLHttpRequest();
+        var url = "bugme.php";
+            
+        let load_home = true;
+
+        httpRequest.onreadystatechange = processName;
+        httpRequest.open('POST', url,true);
+        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        httpRequest.send('home=' + encodeURIComponent(load_home));
+
+        function processName(){       
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    let response = httpRequest.responseText;
+                    document.getElementsByClassName("content")[0].innerHTML = response;
+                } 
+                else {
+                    alert('There was a problem with the request.');
+                }
+            }
+        }
+
+            
         });
-}
+   
+};
 
 function add()
 {
@@ -125,49 +157,51 @@ function add()
 
 function New()
 {
-    fetch("./New_Issue.html")
-        .then(response => {
-            return response.text()
-        })
-        .then(data => {
-            document.getElementsByClassName("content")[0].innerHTML = data;
-            document.getElementsByClassName("newIssue")[0].addEventListener("click", function(element)
+    fetch("./New_Issue.php")
+    .then(response => {
+        return response.text()
+    })
+    .then(data => {
+        document.getElementsByClassName("content")[0].innerHTML = data;
+        document.getElementsByClassName("newIssue")[0].addEventListener("click", function(element)
+        {
+            element.preventDefault();
+
+            var title = document.getElementsByTagName("input")[0].value;
+            var description = document.getElementsByTagName("input")[1].value;
+            var user = document.getElementsByTagName("select")[0].value;
+            var type = document.getElementsByTagName("input")[2].value;
+            var level = document.getElementsByTagName("input")[3].value;
+            const new_issue = [title,description,user,type,level];
+            // console.log(title,description,user,type,level);
+
+            let httpRequest = new XMLHttpRequest();
+
+            var url = "bugme.php";
+
+            httpRequest.onreadystatechange = processName;
+            httpRequest.open('POST', url,true);
+            httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            httpRequest.send('new_issue=' + encodeURIComponent(new_issue));
+
+            function processName()
             {
-                element.preventDefault();
-
-                var title = document.getElementsByTagName("input")[0].value;
-                var description = document.getElementsByTagName("input")[1].value;
-                var user = document.getElementsByTagName("input")[2].value;
-                var type = document.getElementsByTagName("input")[3].value;
-                var level = document.getElementsByTagName("input")[4].value;
-                const new_issue = [title,description,user,type,level];
-                // console.log(title,description,user,type,level);
-
-                let httpRequest = new XMLHttpRequest();
-
-                httpRequest.onreadystatechange = processName;
-                httpRequest.open('POST', url,true);
-                httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                httpRequest.send('new_issue=' + encodeURIComponent(new_issue));
-
-                function processName()
+                if (httpRequest.readyState === XMLHttpRequest.DONE) 
                 {
-                    if (httpRequest.readyState === XMLHttpRequest.DONE) 
+                    if (httpRequest.status === 200) 
                     {
-                        if (httpRequest.status === 200) 
-                        {
-                            let response = httpRequest.responseText;
-                            console.log(response);
-                        } 
-                        else 
-                        {
-                        alert('There was a problem with the request.');
-                        }
+                        let response = httpRequest.responseText;
+                        console.log(response);
+                    } 
+                    else 
+                    {
+                    alert('There was a problem with the request.');
                     }
                 }
             }
-            );
-        });
+        }
+        );
+    });
 }
 
 function login()
@@ -178,16 +212,13 @@ function login()
         })
         .then(data => {
             document.getElementsByClassName("content")[0].innerHTML = data;
-            document.getElementById('LoginBtn').addEventListener("click", function(e)
-            {
+            document.getElementById('loginBtn').addEventListener("click", function(e){
                 e.preventDefault();
-
-                var log_email = document.getElementsByTagName("input")[0].value;
-                var log_pw = document.getElementsByTagName("input")[1].value;
-                const log_user = [log_email,log_pw];
-                
+                let log_pw= document.querySelector('#password').value;
+                let log_email= document.querySelector('#email').value;
+                let log_user= [log_email,log_pw];
                 var url = "bugme.php";
-                console.log("yo");
+                
                 let httpRequest = new XMLHttpRequest();
 
                 httpRequest.onreadystatechange = processName;
@@ -211,7 +242,7 @@ function login()
                             }
                         }
                 
-            });
+            })
         });
 }
 
