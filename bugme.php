@@ -129,8 +129,8 @@
         <th>Assigned To</th>
         <th>Created</th>
     </tr>
-    <?php $count = 0; ?>
-    <?php foreach ($table_results as $row): ?>
+    
+    <?php foreach ($table_results as $count=>$row): ?>
         <?php
             
             $assigned_id = intval($table_results[$count]['assigned_to']);
@@ -141,8 +141,8 @@
             $assigned = $assigned_results[$count]['firstname'].' '.$assigned_results[$count]['lastname'];
                 
             $date = explode(" ",$row['created']);
-            $count ++;
 
+            
         ?>
     <tr>
         <td><?= $row['id'] ?> <a class="Title" value=<?=$row['id']?> href="#"><?= $row['title'] ?><a></td>
@@ -208,32 +208,3 @@
 
 
 
-<?php /*
-foreach ($admin as $ad):
-    echo($ad['firstname']);
-endforeach;
-
-if ($_SERVER['REQUEST_METHOD']=='POST'):
-    if (isset($_POST)):
-        $new_user=filter_var($_POST['add_user'],FILTER_SANITIZE_STRING);
-        $new_user =explode(",",$new_user);
-        echo($id='');
-        echo($firstname= $new_user[0]);
-        echo($lastname= $new_user[1]);
-        echo($password= $new_user[2]);
-        echo($hashed_password = password_hash($password, PASSWORD_DEFAULT));
-        echo($email= $new_user[3]);
-        echo($date=(date("Y-m-d h:i:s")));
-        
-       // $new_u = ['id'=>'', 'firstname' => $firstname,'lastname' => $lastname,'password' => $hashed_password,'email' => $email];
-
-        //$new_admin = "INSERT INTO users (firstname, lastname, password,email) VALUES (:firstname ,:lastname,:password,:email)";
-        //$new_admin -> execute();
-    endif;
-    
-else:
-    echo("nooo");
-endif; */
-
-
-?>

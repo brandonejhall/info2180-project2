@@ -6,12 +6,71 @@ window.onload = function()
         })
         .then(data => {
             document.getElementsByClassName("content")[0].innerHTML = data;
+            document.getElementById('loginBtn').addEventListener("click", function(e){
+                e.preventDefault();
+                clearErrors();
+                console.log("success");
+                let log_pw= document.querySelector('#password')
+                let log_email= document.querySelector('#email')
+                let log_user= [log_email.value,log_pw.value];
+                let msg = document.querySelector('#msg');
+                let approve=false;
+                var url = "bugme.php";
+                //VALIDATION
+                //check if password is empty
+                if (isEmpty(log_pw.value.trim())){
+                    validationFailed=true;
+                    approve=false;
+                    log_pw.style.border="2px solid red";
+                    displayErrorMessage(log_pw,"*Invalid Password*");
+                }else{
+                    log_pw.style.removeProperty("border");
+                    approve=true;
+                }
+
+                //check if email is valid
+                if (!isValidEmail(log_email.value.trim())){
+                    validationFailed=true;
+                    approve=false;
+                    log_email.style.border="2px solid red";
+                    displayErrorMessage(log_email,"*Invalid email address*");
+                }else{
+                    log_email.style.removeProperty("border");
+                    approve=true;
+
+                }
+                
+                let httpRequest = new XMLHttpRequest();
+
+                httpRequest.onreadystatechange = processName;
+                        httpRequest.open('POST', url,true);
+                        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        httpRequest.send('log_user=' + encodeURIComponent(log_user));
+
+                        function processName()
+                        {
+                            if (httpRequest.readyState === XMLHttpRequest.DONE) 
+                            {
+                                if (httpRequest.status === 200) 
+                                {
+                                    let response = httpRequest.responseText;
+                                    msg.innerHTML=response;
+
+                                } 
+                                else 
+                                {
+                                alert('There was a problem with the request.');
+                                }
+                            }
+                        }
+                if (approve){
+                    document.getElementsByClassName("Home")[0].addEventListener("click",home);
+                    document.getElementsByClassName("Add")[0].addEventListener("click",add);
+                    document.getElementsByClassName("New")[0].addEventListener("click",New);
+                }
+                
+            })
         });
-    document.getElementsByClassName("Home")[0].addEventListener("click",home);
-    document.getElementsByClassName("Add")[0].addEventListener("click",add);
-    document.getElementsByClassName("New")[0].addEventListener("click",New);
-    document.getElementsByClassName("Logout")[0].addEventListener("click",login);
-    
     
 };
 
@@ -78,9 +137,10 @@ function home()
    
 };
 
+
 function add()
 {
-    fetch("./user.html")
+    fetch("./user.php")
         .then(response => {
             return response.text()
         })
@@ -97,6 +157,7 @@ function add()
                     let add_lname= document.querySelector('#lname');
                     let add_email= document.querySelector('#email');
                     let add_password= document.querySelector('#password');
+                    let msg = document.querySelector('#msg');
 
 
                     //Check if first name is empty
@@ -168,7 +229,7 @@ function add()
                                 if (httpRequest.status === 200) 
                                 {
                                     let response = httpRequest.responseText;
-                                    console.log(response);
+                                    msg.innerHTML=response;
                                 } 
                                 else 
                                 {
@@ -194,85 +255,68 @@ function New()
         document.getElementsByClassName("newIssue")[0].addEventListener("click", function(element)
         {
             element.preventDefault();
+            clearErrors();            
 
-            var title = document.getElementsByTagName("input")[0].value;
-            var description = document.getElementsByTagName("input")[1].value;
-            var user = document.getElementsByTagName("select")[0].value;
-            var type = document.getElementsByTagName("input")[2].value;
-            var level = document.getElementsByTagName("input")[3].value;
-            const new_issue = [title,description,user,type,level];
+            var title = document.getElementById("title");
+            var description = document.getElementById("description");
+            var user = document.getElementById("new_issue");
+            var type = document.getElementById("type");
+            var level = document.getElementById("prio");
+            const new_issue = [title.value,description.value,user.value,type.value,level.value];
+            let approve=false;
             // console.log(title,description,user,type,level);
+            //Validating input 
+            if (isEmpty(title.value.trim())){
+                validationFailed=true;
+                approve=false;
+                title.style.border="2px solid red";
+                displayErrorMessage(title,"*Invalid Title*");
+            }else{
+                title.style.removeProperty("border");
+                approve=true;
+            }
+            if (isEmpty(description.value.trim())){
+                validationFailed=true;
+                approve=false;
+                description.style.border="2px solid red";
+                displayErrorMessage(description,"*Invalid Description*");
+            }else{
+                description.style.removeProperty("border");
+                approve=true;
+            }
 
-            let httpRequest = new XMLHttpRequest();
+            if (approve){
+                let httpRequest = new XMLHttpRequest();
 
-            var url = "bugme.php";
+                var url = "bugme.php";
 
-            httpRequest.onreadystatechange = processName;
-            httpRequest.open('POST', url,true);
-            httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            httpRequest.send('new_issue=' + encodeURIComponent(new_issue));
+                httpRequest.onreadystatechange = processName;
+                httpRequest.open('POST', url,true);
+                httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequest.send('new_issue=' + encodeURIComponent(new_issue));
 
-            function processName()
-            {
-                if (httpRequest.readyState === XMLHttpRequest.DONE) 
+                function processName()
                 {
-                    if (httpRequest.status === 200) 
+                    if (httpRequest.readyState === XMLHttpRequest.DONE) 
                     {
-                        let response = httpRequest.responseText;
-                        console.log(response);
-                    } 
-                    else 
-                    {
-                    alert('There was a problem with the request.');
+                        if (httpRequest.status === 200) 
+                        {
+                            let response = httpRequest.responseText;
+                            console.log(response);
+                        } 
+                        else 
+                        {
+                        alert('There was a problem with the request.');
+                        }
                     }
                 }
             }
+            
         }
         );
     });
 }
 
-function login()
-{
-    fetch("./Login.html")
-        .then(response => {
-            return response.text()
-        })
-        .then(data => {
-            document.getElementsByClassName("content")[0].innerHTML = data;
-            document.getElementById('loginBtn').addEventListener("click", function(e){
-                e.preventDefault();
-                let log_pw= document.querySelector('#password').value;
-                let log_email= document.querySelector('#email').value;
-                let log_user= [log_email,log_pw];
-                var url = "bugme.php";
-                
-                let httpRequest = new XMLHttpRequest();
-
-                httpRequest.onreadystatechange = processName;
-                        httpRequest.open('POST', url,true);
-                        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        httpRequest.send('log_user=' + encodeURIComponent(log_user));
-
-                        function processName()
-                        {
-                            if (httpRequest.readyState === XMLHttpRequest.DONE) 
-                            {
-                                if (httpRequest.status === 200) 
-                                {
-                                    let response = httpRequest.responseText;
-                                    console.log(response);
-                                } 
-                                else 
-                                {
-                                alert('There was a problem with the request.');
-                                }
-                            }
-                        }
-                
-            })
-        });
-}
 
 //VALIDATION CODE
 function isEmpty(elementValue) {
@@ -282,14 +326,6 @@ function isEmpty(elementValue) {
       return true;
     } 
     return false;
-}
-
-function isValidID(id) {
-    return /^\d{9}$/.test(id);
-}
-
-function isReference(ref){
-    return /^\d{13}$/.test(ref);
 }
 
 function isValidEmail(emailAddress) {
