@@ -48,13 +48,13 @@ function home()
                             var url = 'http://localhost/info2180-project2/bugme.php?title=';
                             let request = new URL(url+query_element);
                             fetch (request)
-                            .then(response => {
-                                if (response.ok){
-                                    return response.text()
-                                } 
-                                else{
-                                    return Promise.reject('something went wrong')
-                                }
+                                .then(response => {
+                                    if (response.ok){
+                                        return response.text()
+                                    } 
+                                    else{
+                                        return Promise.reject('something went wrong')
+                                    }
                             })
                             .then (function(data){
                                 document.getElementsByClassName("content")[0].innerHTML = data;

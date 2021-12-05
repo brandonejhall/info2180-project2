@@ -104,7 +104,15 @@
             endif;
 
 
+        elseif($_SERVER['REQUEST_METHOD']=== 'GET'):
+            if(isset($_GET['title'])):
+                $title = $_GET['title'];
+                $stmt = $conn->query("SELECT * FROM issues WHERE id = '$title'");
+                $title_results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                              
+            endif;
     endif;
+
 
     
 
@@ -121,12 +129,12 @@
         <th>Assigned To</th>
         <th>Created</th>
     </tr>
-
+    <?php $count = 0; ?>
     <?php foreach ($table_results as $row): ?>
         <?php
-            $count =0;
-            $assigned_id = intval($table_results[0]['assigned_to']);
-            $created_id = intval($table_results[0]['created_by']);
+            
+            $assigned_id = intval($table_results[$count]['assigned_to']);
+            $created_id = intval($table_results[$count]['created_by']);
         
             $u_stmt = $conn->query("SELECT * FROM users WHERE id = '$assigned_id'");
             $assigned_results = $u_stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -137,7 +145,7 @@
 
         ?>
     <tr>
-        <td><?= $row['id'] ?> <a class="Title" value=<?=$row['title']?> href="#"><?= $row['title'] ?><a></td>
+        <td><?= $row['id'] ?> <a class="Title" value=<?=$row['id']?> href="#"><?= $row['title'] ?><a></td>
         <td><?= $row['type'] ?></td>
         <td><?= $row['status'] ?></td>
         <td><?= $assigned ?></td>
@@ -149,7 +157,31 @@
 <?php endif; ?>
 
 
+<?php if ($title_results!=[]): ?>
+    <html>
+        <div class = 'title_head'> 
+            <h1><?=$title_results[0]['title'];?><h1>
+            <h5>Issue <?= $title_results[0]['id'] ?> </h5>
+        </div>
+        
+        <div class ='title_content'>
+            <p> <?= $title_results[0]['description']; ?> </p>
+            <div class = 'right_bar'>
+                <div class = 'desc'>
+                    <p><?= $title_results[0]['assigned_to']?></p>
+                    <p><?= $title_results[0]['type']?></p>
+                    <p><?= $title_results[0]['priority']?></p>
+                    <p><?= $title_results[0]['status']?></p>
+                </div>
+                <button>Mark as Closed </button>
+                <button>Mark In Progress</button>
+            </div>
+        </div>
+    </html>
+    
+  
 
+<?php endif; ?>
 
 
 
