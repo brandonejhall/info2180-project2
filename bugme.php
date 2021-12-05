@@ -93,12 +93,14 @@
                 ]);
 
                 echo 'new issue created';
-            elseif(isset($_POST['home'])):
+            elseif($_POST['home']=='true' ):
                 session_start();
                 $stmt = $conn->query("SELECT * FROM issues");
                 $table_results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-
+            elseif($_POST['home']!= 'true'):
+                $session_start();
+                echo $_POST['home'];
             endif;
 
 
@@ -133,11 +135,9 @@
             $date = explode(" ",$row['created']);
             $count ++;
 
-            
-
         ?>
     <tr>
-        <td><?= $row['id'] ?> <a href=""><?= $row['title'] ?><a></td>
+        <td><?= $row['id'] ?> <a class="Title" value=<?=$row['title']?> href="#"><?= $row['title'] ?><a></td>
         <td><?= $row['type'] ?></td>
         <td><?= $row['status'] ?></td>
         <td><?= $assigned ?></td>

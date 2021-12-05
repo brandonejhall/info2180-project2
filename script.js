@@ -11,6 +11,8 @@ window.onload = function()
     document.getElementsByClassName("Add")[0].addEventListener("click",add);
     document.getElementsByClassName("New")[0].addEventListener("click",New);
     document.getElementsByClassName("Logout")[0].addEventListener("click",login);
+    
+    
 };
 
 function home()
@@ -28,6 +30,7 @@ function home()
             
         let load_home = true;
 
+
         httpRequest.onreadystatechange = processName;
         httpRequest.open('POST', url,true);
         httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -38,6 +41,31 @@ function home()
                 if (httpRequest.status === 200) {
                     let response = httpRequest.responseText;
                     document.getElementsByClassName("content")[0].innerHTML = response;
+                    
+                    Array.prototype.forEach.call(document.getElementsByClassName("Title"), element=> {
+                        element.addEventListener('click',function(){
+                            let query_element = element.getAttribute('value');
+                            var url = 'http://localhost/info2180-project2/bugme.php?title=';
+                            let request = new URL(url+query_element);
+                            fetch (request)
+                            .then(response => {
+                                if (response.ok){
+                                    return response.text()
+                                } 
+                                else{
+                                    return Promise.reject('something went wrong')
+                                }
+                            })
+                            .then (function(data){
+                                document.getElementsByClassName("content")[0].innerHTML = data;
+                            })
+                            .catch (error => console.log('There was an error: ' + error))
+
+
+
+                        })
+                      });
+
                 } 
                 else {
                     alert('There was a problem with the request.');
