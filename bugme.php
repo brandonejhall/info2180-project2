@@ -130,10 +130,10 @@
             $assigned_results = $u_stmt->fetchAll(\PDO::FETCH_ASSOC);
             $assigned = $assigned_results[$count]['firstname'].' '.$assigned_results[$count]['lastname'];
                 
-            $c_stmt = $conn->query("SELECT * FROM users WHERE id = $created_id");
-            $created_results = $c_stmt->fetchAll(\PDO::FETCH_ASSOC);
-            $created = $created_results[$count]['firstname'].' '.$created_results[$count]['lastname'];
+            $date = explode(" ",$row['created']);
             $count ++;
+
+            
 
         ?>
     <tr>
@@ -141,7 +141,7 @@
         <td><?= $row['type'] ?></td>
         <td><?= $row['status'] ?></td>
         <td><?= $assigned ?></td>
-        <td><?= $row['created'] ?></td>
+        <td><?= $date[0] ?></td>
     </tr>
     <?php endforeach; ?>
 
